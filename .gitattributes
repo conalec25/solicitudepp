@@ -1,0 +1,53 @@
+# Enforce Unix-style LF line endings in source files
+* text=auto eol=lf
+
+# Treat TypeScript and config files as text
+*.ts   text diff=typescript
+*.tsx  text diff=typescript
+*.json text
+*.scss text
+*.css  text
+*.html text
+*.md   text
+*.yml  text
+*.yaml text
+
+# Scripts as text
+*.js   text
+*.jsx  text
+*.sh   text
+*.ps1  text
+*.bat  text
+
+# Binary files should be left untouched
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.svg   binary
+*.eot   binary
+*.ttf   binary
+*.woff  binary
+*.woff2 binary
+*.pfx   binary
+*.snk   binary
+
+# Office/Excel/Word files
+*.docx  binary
+*.pptx  binary
+*.xlsx  binary
+*.xlsm  binary
+
+# Windows-specific files
+*.exe   binary
+*.dll   binary
+
+# GitHub linguist overrides (useful for stats)
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Keep lock files normalized (optional)
+package-lock.json text
+yarn.lock text
+pnpm-lock.yaml text
