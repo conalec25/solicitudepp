@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "solicitudepp-client-side-solution",
+    "id": "94ffda7d-06f3-4af0-843b-7ed9d38d1f45",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "solicitudepp description"
+      },
+      "longDescription": {
+        "default": "solicitudepp description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "solicitudepp Feature",
+        "description": "The feature that activates elements of the solicitudepp solution.",
+        "id": "fb68b1ab-2e13-4c3e-b65a-72d1854b0eb1",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/solicitudepp.sppkg"
+  }
+}

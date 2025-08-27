@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.17.1",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "solicitudepp",
+    "libraryId": "94ffda7d-06f3-4af0-843b-7ed9d38d1f45",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "solicitudepp",
+    "solutionShortDescription": "solicitudepp description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
