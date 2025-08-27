@@ -29,7 +29,8 @@ export default class EppRequestWebPart extends BaseClientSideWebPart<IEppRequest
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
-        userDisplayName: this.context.pageContext.user.displayName
+        userDisplayName: this.context.pageContext.user.displayName,
+        context: this.context // 👈 agregado para pasar el contexto a React
       }
     );
 
@@ -41,8 +42,6 @@ export default class EppRequestWebPart extends BaseClientSideWebPart<IEppRequest
       this._environmentMessage = message;
     });
   }
-
-
 
   private _getEnvironmentMessage(): Promise<string> {
     if (!!this.context.sdks.microsoftTeams) { // running in Teams, office.com or Outlook
