@@ -1,38 +1,50 @@
 import * as React from 'react';
-import styles from './EppRequest.module.scss';
-import type { IEppRequestProps } from './IEppRequestProps';
+import { useState } from 'react';
+import { Text } from '@fluentui/react';
 import SelectCentro from './SelectCentro';
+import RequestForm from './RequestForm';
+import { IEppRequestProps } from './IEppRequestProps';
 
-export default class EppRequest extends React.Component<IEppRequestProps, { centro: { key: string, text: string } | null }> {
-  constructor(props: IEppRequestProps) {
-    super(props);
-    this.state = {
-      centro: null
-    };
-  }
+const EppRequest: React.FC<IEppRequestProps> = (props) => {
+  const [step, setStep] = useState<number>(1);
+  const [selectedCentro, setSelectedCentro] = useState<{ key: string; text: string } | null>(null);
 
-  private handleCentroSelected = (centro: { key: string, text: string }) => {
-    this.setState({ centro });
+  const handleCentroSelected = (centro: { key: string; text: string }) => {
+    console.log("✅ Centro seleccionado:", centro);
+    setSelectedCentro(centro);
+    setStep(2);
   };
 
-  public render(): React.ReactElement<IEppRequestProps> {
-    const { context } = this.props;
+  const handleFormSubmit = (data: any) => {
+    console.log("📤 Datos enviados desde formulario:", data);
+    setStep(3);
+  };
 
-    return (
-      <section className={styles.eppRequest}>
-        {!this.state.centro ? (
-          <SelectCentro
-            context={context}
-            onCentroSelected={this.handleCentroSelected}
-          />
-        ) : (
-          <div>
-            <h3>Centro seleccionado:</h3>
-            <p><strong>{this.state.centro.text}</strong></p>
-            {/* Aquí luego cargaremos la siguiente ventana */}
-          </div>
-        )}
-      </section>
-    );
-  }
-}
+  return (
+    <div>
+      <Text variant="xLarge">Solicitud de EPP</Text>
+
+      {step === 1 && (
+        <SelectCentro
+          context={props.context}
+          onCentroSelected={handleCentroSelected}
+        />
+      )}
+
+      {step === 2 && selectedCentro && (
+        <RequestForm
+          selectedCentro={selectedCentro}
+          onSubmit={handleFormSubmit}
+        />
+      )}
+
+      {step === 3 && (
+        <div>
+          <Text variant="large">✅ Solicitud enviada correctamente</Text>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default EppRequest;
