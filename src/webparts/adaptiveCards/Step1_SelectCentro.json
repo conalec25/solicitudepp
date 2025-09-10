@@ -1,0 +1,27 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Seleccione su Centro",
+      "weight": "Bolder",
+      "color": "Good",
+      "size": "Large"
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "id": "centro",
+      "style": "expanded",
+      "choices": []
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Siguiente",
+      "data": { "step": 2 }
+    }
+  ]
+}

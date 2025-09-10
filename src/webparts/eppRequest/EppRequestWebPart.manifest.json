@@ -1,28 +1,29 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "fae8627d-ba2f-4a38-8718-6954048abdb3",
+  "id": "94FFDA7D-06F3-4AF0-843B-7ED9D3BD1F45",
   "alias": "EppRequestWebPart",
   "componentType": "WebPart",
-
-  // The "*" signifies that the version should be taken from the package.json
   "version": "*",
   "manifestVersion": 2,
-
-  // If true, the component can only be installed on sites where Custom Script is allowed.
-  // Components that allow authors to embed arbitrary script code should set this to true.
-  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
   "requiresCustomScript": false,
-  "supportedHosts": ["SharePointWebPart", "TeamsPersonalApp", "TeamsTab", "SharePointFullPage"],
+  "supportedHosts": [
+    "SharePointWebPart",
+    "TeamsPersonalApp",
+    "TeamsTab",
+    "SharePointFullPage"
+  ],
   "supportsThemeVariants": true,
-
-  "preconfiguredEntries": [{
-    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
-    "group": { "default": "Advanced" },
-    "title": { "default": "EppRequest" },
-    "description": { "default": "EppRequest description" },
-    "officeFabricIconFontName": "Page",
-    "properties": {
-      "description": "EppRequest"
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70",
+      "group": { "default": "Advanced" },
+      "title": { "default": "Solicitud de EPP" },
+      "description": { "default": "Formulario para registrar y aprobar solicitudes de Equipos de Protección Personal (EPP)" },
+      "officeFabricIconFontName": "",
+      "iconImageUrl": "https://conalec365.sharepoint.com/sites/CONALECTEAM/Shared%20Documents/CONALEC/FACTURACION/IT/SSO.png",
+      "properties": {
+        "description": "Solicitud de EPP"
+      }
     }
-  }]
+  ]
 }

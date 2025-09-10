@@ -1,0 +1,30 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://tusitio.sharepoint.com/sites/epp/assets/logo.png",
+      "size": "Medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Solicitud Enviada",
+      "weight": "Bolder",
+      "color": "Good",
+      "size": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${solicitante}",
+      "weight": "Bolder",
+      "color": "Good"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${fechaHora}",
+      "color": "Default"
+    }
+  ]
+}

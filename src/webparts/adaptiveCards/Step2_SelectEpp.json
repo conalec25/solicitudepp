@@ -1,0 +1,39 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Solicitud de EPP",
+      "weight": "Bolder",
+      "color": "Good",
+      "size": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Centro seleccionado:",
+      "weight": "Default",
+      "color": "Default"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${centro}",
+      "weight": "Bolder",
+      "color": "Good"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Categoría",
+      "weight": "Bolder",
+      "color": "Good"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Siguiente",
+      "data": { "step": 3, "centro": "${centro}" }
+    }
+  ]
+}

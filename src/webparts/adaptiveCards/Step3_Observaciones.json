@@ -1,0 +1,27 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.4",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Observaciones",
+      "weight": "Bolder",
+      "color": "Good",
+      "size": "Large"
+    },
+    {
+      "type": "Input.Text",
+      "id": "observaciones",
+      "isMultiline": true,
+      "placeholder": "Ingrese observaciones adicionales"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.Submit",
+      "title": "Enviar Solicitud",
+      "data": { "step": 4 }
+    }
+  ]
+}

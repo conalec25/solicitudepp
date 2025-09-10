@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import {
-  Dropdown,
-  IDropdownOption,
   PrimaryButton,
   Text,
   ChoiceGroup,
@@ -11,74 +9,70 @@ import {
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
 
-// Mock local
-import { MockCentros } from './mockData';
+import styles from './EppRequest.module.scss';
 
 interface ISelectCentroProps {
   context: WebPartContext;
   onCentroSelected: (centro: { key: string; text: string }) => void;
 }
 
+interface ICentroItem {
+  Title?: string;
+  field_1?: string; // Nombre del centro
+  field_4?: string | boolean; // Activo
+  Correo_Encargado?: { EMail: string };
+}
+
 const SelectCentro: React.FC<ISelectCentroProps> = ({ context, onCentroSelected }) => {
   const [centros, setCentros] = useState<IChoiceGroupOption[]>([]);
-  const [usuarios, setUsuarios] = useState<IDropdownOption[]>([]);
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [selectedCentro, setSelectedCentro] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
-  const [allItems, setAllItems] = useState<any[]>([]);
-
-  useEffect(() => {
-    loadData();
-  }, []);
+  const [nombreSolicitante, setNombreSolicitante] = useState<string>("");
 
   const loadData = async (): Promise<void> => {
     try {
-      // Detectamos si estamos en entorno local
-      if (context.isServedFromLocalhost) {
-        console.log("🔵 Modo LOCAL - usando MockCentros");
-        setAllItems(MockCentros);
-
-        const correosUnicos = Array.from(
-          new Set(MockCentros.map((item: any) => item.Correo_Encargado?.EMail).filter(Boolean))
-        );
-
-        const opcionesUsuarios: IDropdownOption[] = correosUnicos.map((correo: string) => ({
-          key: correo,
-          text: correo
-        }));
-
-        setUsuarios(opcionesUsuarios);
-        setLoading(false);
-        return;
-      }
-
-      // Caso real: SharePoint REST API
-      console.log("🟢 Modo ONLINE - consultando lista SSO_CENTROS");
+      const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('SSO_CENTROS')/items?$select=Title,field_1,field_4,Correo_Encargado/EMail&$expand=Correo_Encargado`;
 
       const response: SPHttpClientResponse = await context.spHttpClient.get(
-        `${context.pageContext.web.absoluteUrl}/_api/web/lists/getbytitle('SSO_CENTROS')/items?$select=Title,Centro,Activo,EncargadoNombre,Correo_Encargado/EMail&$expand=Correo_Encargado`,
+        url,
         SPHttpClient.configurations.v1
       );
 
-      if (!response.ok) {
-        throw new Error(`Error en REST API: ${response.status} ${response.statusText}`);
+      const data: { value: ICentroItem[] } = await response.json();
+
+      const userEmail = context.pageContext.user.email.toLowerCase();
+      const allowedAdmins = [
+        "facturacion@conalec.com",
+        "sso@conalec.com",
+        "asistente.facturacion@conalec.com"
+      ];
+
+      let centrosPermitidos: ICentroItem[] = [];
+
+      if (allowedAdmins.includes(userEmail)) {
+        centrosPermitidos = data.value.filter((c) => {
+          const activo = String(c.field_4).toLowerCase();
+          return activo === "sí" || activo === "true" || activo === "1";
+        });
+      } else {
+        centrosPermitidos = data.value.filter((c) => {
+          const activo = String(c.field_4).toLowerCase();
+          return (
+            (activo === "sí" || activo === "true" || activo === "1") &&
+            c.Correo_Encargado?.EMail?.toLowerCase() === userEmail
+          );
+        });
       }
 
-      const data = await response.json();
-      console.log("✅ Datos cargados de SharePoint:", data.value);
+      // 👇 Mostrar siempre el nombre del usuario conectado
+      setNombreSolicitante(context.pageContext.user.displayName);
 
-      setAllItems(data.value);
-
-      const correosUnicos = Array.from(
-        new Set(data.value.map((item: any) => item.Correo_Encargado?.EMail).filter(Boolean))
-      );
-
-      const opcionesUsuarios: IDropdownOption[] = correosUnicos.map((correo: string) => ({
-        key: correo,
-        text: correo
+      const opcionesCentro: IChoiceGroupOption[] = centrosPermitidos.map((c) => ({
+        key: String(c.Title ?? ""),
+        text: c.field_1 ?? ""
       }));
 
-      setUsuarios(opcionesUsuarios);
+      setCentros(opcionesCentro);
     } catch (error) {
       console.error("❌ Error cargando datos:", error);
     } finally {
@@ -86,34 +80,12 @@ const SelectCentro: React.FC<ISelectCentroProps> = ({ context, onCentroSelected 
     }
   };
 
-  const handleUserChange = (event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption): void => {
-    if (!option) return;
-    setSelectedUser(option.key as string);
-
-    const centrosPermitidos = allItems
-      .filter(
-        (c: any) =>
-          c.Activo === true &&
-          c.Correo_Encargado?.EMail?.toLowerCase() === (option.key as string).toLowerCase()
-      )
-      .map((c: any) => ({
-        key: c.Title,
-        text: c.Centro
-      }));
-
-    const opcionesCentro: IChoiceGroupOption[] = centrosPermitidos.map((c: any) => ({
-      key: c.key,
-      text: c.text
-    }));
-
-    setCentros(opcionesCentro);
-    setSelectedCentro(undefined);
-
-    console.log("👉 Centros filtrados para usuario:", option.key, opcionesCentro);
-  };
+  useEffect(() => {
+    loadData().catch(console.error);
+  }, []);
 
   const handleCentroChange = (
-    event?: React.FormEvent<HTMLElement | HTMLInputElement>,
+    _: React.FormEvent<HTMLElement | HTMLInputElement>,
     option?: IChoiceGroupOption
   ): void => {
     if (option) setSelectedCentro(option.key);
@@ -122,38 +94,45 @@ const SelectCentro: React.FC<ISelectCentroProps> = ({ context, onCentroSelected 
   const handleNext = (): void => {
     const centroSeleccionado = centros.find((c) => c.key === selectedCentro);
     if (centroSeleccionado) {
-      console.log("✅ Centro seleccionado:", centroSeleccionado);
       onCentroSelected({ key: centroSeleccionado.key, text: centroSeleccionado.text });
     }
   };
 
   return (
     <div>
-      <Text variant="large">Seleccione su usuario y centro</Text>
+      {/* Cabecera con título y usuario */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Text className={styles.tituloVerdeXL}>Solicitud de EPP</Text>
+        <Text className={styles.tituloNegro}>
+          {nombreSolicitante}
+        </Text>
+      </div>
+
+      <br />
+      <Text className={styles.tituloNegro}>Seleccione su Centro</Text>
+      <br />
+      <Text className={styles.subtituloNegro}>Centros disponibles:</Text>
 
       {loading ? (
         <Text>Cargando datos...</Text>
       ) : (
-        <>
-          <Dropdown
-            placeholder="Seleccione un usuario"
-            options={usuarios}
-            onChange={handleUserChange}
-            selectedKey={selectedUser || undefined}
-          />
-          <br />
-          <ChoiceGroup
-            label="Centros disponibles"
-            options={centros}
-            onChange={handleCentroChange}
-            selectedKey={selectedCentro}
-            disabled={!selectedUser}
-          />
-        </>
+        <ChoiceGroup
+          options={centros}
+          onChange={handleCentroChange}
+          selectedKey={selectedCentro}
+        />
       )}
 
-      <br />
-      <PrimaryButton text="Siguiente" onClick={handleNext} disabled={!selectedCentro} />
+      {/* Botón siguiente y logo */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "20px" }}>
+        <PrimaryButton 
+          text="Siguiente" 
+          onClick={handleNext} 
+          disabled={!selectedCentro} 
+          className={styles.btnVerde} 
+        />
+        <img src={require('../assets/logo.png')} alt="Logo" className={styles.logoInferior} />
+      </div>
     </div>
   );
 };

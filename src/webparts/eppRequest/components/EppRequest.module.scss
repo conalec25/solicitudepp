@@ -1,34 +1,107 @@
-@import '~@fluentui/react/dist/sass/References.scss';
+/* Estilos principales de la app Solicitud EPP */
 
-.eppRequest {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
+.tituloVerde {
+  color: #029A35; /* Verde corporativo */
+  font-weight: 600;
+}
+
+.subtituloNegro {
+  color: #333333;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.inputCantidad {
+  width: 80px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: right;
+  transition: border-color 0.2s ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-color: #029A35;
+    box-shadow: 0 0 4px rgba(2, 154, 53, 0.4);
   }
 }
 
-.welcome {
-  text-align: center;
+.btnVerde {
+  background-color: #029A35;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #027a2a;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }
 
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
+.container {
+  padding: 20px;
 }
 
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+.logo {
+  max-width: 150px;
+  margin: 0 auto 20px auto;
+  display: block;
+}
 
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+.observacionesBox {
+  margin-top: 20px;
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: vertical;
+
+    &:focus {
+      border-color: #029A35;
+      box-shadow: 0 0 4px rgba(2, 154, 53, 0.4);
+      outline: none;
     }
   }
+}
+
+/* 🔥 Nuevas clases para RequestForm */
+.itemRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cantidadInput {
+  width: 100px;
+}
+
+/* 🔥 Nuevas clases para encabezados */
+.tituloVerdeXL {
+  color: #029A35; /* Verde corporativo */
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.tituloNegro {
+  color: #000000;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.logoInferior {
+  max-width: 120px;   /* ajusta tamaño según necesidad */
+  margin-left: 20px;  /* espacio con el botón */
+  align-self: center; /* centrado vertical */
 }

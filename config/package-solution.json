@@ -3,23 +3,23 @@
   "solution": {
     "name": "solicitudepp-client-side-solution",
     "id": "94ffda7d-06f3-4af0-843b-7ed9d38d1f45",
-    "version": "1.0.0.0",
+    "version": "2.2.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
-      "name": "",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
-      "mpnId": "Undefined-1.21.1"
+      "name": "CONALEC S.A.S.",
+      "websiteUrl": "https://www.conalec.com",
+      "privacyUrl": "https://www.conalec.com/privacy",
+      "termsOfUseUrl": "https://www.conalec.com/terms",
+      "mpnId": ""
     },
     "metadata": {
       "shortDescription": {
-        "default": "solicitudepp description"
+        "default": "Solicitud de EPP"
       },
       "longDescription": {
-        "default": "solicitudepp description"
+        "default": "Aplicación para registrar, aprobar y dar seguimiento a solicitudes de Equipos de Protección Personal (EPP)"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -27,10 +27,10 @@
     },
     "features": [
       {
-        "title": "solicitudepp Feature",
-        "description": "The feature that activates elements of the solicitudepp solution.",
+        "title": "Solicitud de EPP Feature",
+        "description": "Activa la solución Solicitud de EPP.",
         "id": "fb68b1ab-2e13-4c3e-b65a-72d1854b0eb1",
-        "version": "1.0.0.0"
+        "version": "2.2.0.0"
       }
     ]
   },
